@@ -16,6 +16,9 @@ DriveBase::DriveBase() :
 		leftFollower2.Follow(leftMasterMotor);
 		rightFollower1.Follow(rightMasterMotor);
 		rightFollower2.Follow(rightMasterMotor);
+
+		leftMasterMotor.SetSensorPhase(true);
+		rightMasterMotor.SetSensorPhase(true);
 }
 
 void DriveBase::setMotors(float left, float right) {

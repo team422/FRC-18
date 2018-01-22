@@ -2,6 +2,8 @@
 
 #include <WPILib.h>
 #include "Subsystems/Subsystems.hpp"
+#include "Commands/DriveStraight.hpp"
+#include "Commands/Turn.hpp"
 
 class Robot : public frc::IterativeRobot {
 

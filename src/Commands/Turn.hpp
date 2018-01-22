@@ -2,13 +2,16 @@
 
 #include <WPILib.h>
 
-class TankDrive : public frc::Command {
-
+class Turn : public frc::Command  {
 public:
-	TankDrive();
+	Turn(int degrees, float speed, float timeout);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void Interrupted();
 	void End();
+private:
+	int degrees;
+	float speed;
+	float timeout;
 };

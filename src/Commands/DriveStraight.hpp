@@ -2,13 +2,15 @@
 
 #include <WPILib.h>
 
-class TankDrive : public frc::Command {
-
+class DriveStraight : public frc::Command {
 public:
-	TankDrive();
+	DriveStraight(float inches);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void Interrupted();
 	void End();
+private:
+	int convertToTicks(float inches);
+	int ticks;
 };
