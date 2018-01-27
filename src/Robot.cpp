@@ -1,14 +1,19 @@
 #include "Robot.hpp"
 
+void Robot::RobotInit() {
+	Subsystems::compressor.Start();
+}
+
 void Robot::AutonomousInit() {
-	std::string gameData;
-	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-	if(gameData[0] == 'R')
-	{
-		(new Turn(180,0.2,10))->Start();
-	} else {
-		(new Turn(90,0.2,5))->Start();
-	}
+//	std::string gameData;
+//	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+//	if(gameData[0] == 'R')
+//	{
+//		(new Turn(180,0.2,10))->Start();
+//	} else {
+//		(new Turn(90,0.2,5))->Start();
+//	}
+	leftAuto.Start();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -21,7 +26,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-
+	leftAuto.Cancel();
 }
 
 void Robot::TeleopPeriodic() {

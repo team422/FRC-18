@@ -5,8 +5,10 @@
 #include "../UI.hpp"
 #include "../RobotMap.h"
 
+
 namespace Subsystems {
 	extern DriveBase driveBase;
 	extern UI userInterface;
+	extern Compressor compressor;
 //	extern Intake intake;
 }

@@ -4,7 +4,7 @@
 
 class DriveStraight : public frc::Command {
 public:
-	DriveStraight(float inches);
+	DriveStraight(float inches, float speed, float timeout);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,4 +13,6 @@ public:
 private:
 	int convertToTicks(float inches);
 	int ticks;
+	float speed;
+	float timeout;
 };

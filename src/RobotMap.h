@@ -7,7 +7,7 @@
 namespace Ports {
 
 #ifndef COMP_BOT
-	// Talon IDs
+	// Motor IDs
 	const int	LEFT_MASTER_MOTOR = 40,
 				LEFT_FOLLOWER_1 = 44,
 				LEFT_FOLLOWER_2 = 21,
@@ -19,7 +19,7 @@ namespace Ports {
 	const int	INTAKE_FOWARD = 3,
 				INTAKE_REVERSE = 4;
 #else
-	// Talon IDs
+	// Motor IDs
 	const int	LEFT_MASTER_MOTOR = 1,
 				LEFT_FOLLOWER_1 = 2,
 				LEFT_FOLLOWER_2 = 3,
