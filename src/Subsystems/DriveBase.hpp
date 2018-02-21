@@ -17,6 +17,7 @@ public:
 	float getGyroAngle();
 	void zeroEncoderPosition();
 	void zeroGyroAngle();
+	bool getBeamBrake();
 private:
 	TalonSRX	leftMasterMotor,
 				rightMasterMotor;
@@ -29,6 +30,7 @@ private:
 		leftFollower2,
 		rightFollower1,
 		rightFollower2;
+	DigitalInput beamBrake;
 	TankDrive tankDrive;
 	ADXRS450_Gyro gyro;
 };

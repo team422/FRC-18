@@ -13,5 +13,5 @@ public:
 private:
 	int degrees;
 	float speed;
-	float timeout;
+	bool isCorrecting;
 };

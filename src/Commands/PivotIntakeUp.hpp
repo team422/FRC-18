@@ -2,15 +2,15 @@
 
 #include <WPILib.h>
 
-class TankDrive : public frc::Command {
+class PivotIntakeUp: public frc::Command {
 public:
-	TankDrive();
+	PivotIntakeUp(float time);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void Interrupted();
 	void End();
 private:
-	float leftSpeed, rightSpeed;
-	const float MAX_CHANGE = 0.04f;
+	float time;
 };
+

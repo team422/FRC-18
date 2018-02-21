@@ -1,43 +1,46 @@
 #include "DriveStraight.hpp"
 #include "../Subsystems/Subsystems.hpp"
 #include "../Subsystems/DriveBase.hpp"
+#include <cmath>
 
-DriveStraight::DriveStraight(float inches, float speed, float timeout) :
+DriveStraight::DriveStraight(float inches, float speed, bool forward, float timeout) :
+Command(timeout),
 ticks(convertToTicks(inches)),
-speed(speed),
-timeout(timeout) {
+forward(forward),
+speed(speed) {
 	Requires(&Subsystems::driveBase);
 }
 
 void DriveStraight::Initialize() {
-	printf("/n/nDriveStraight Intitialize Called/n/n");
 	Subsystems::driveBase.zeroEncoderPosition();
 	Subsystems::driveBase.zeroGyroAngle();
 }
 
 void DriveStraight::Execute() {
-	printf("/n/nDriveStraight Execute Called/n/n");
-	Subsystems::driveBase.setMotors(-speed,-speed);
+	float correction = Subsystems::driveBase.getGyroAngle();
+	correction *= 0.075;
+	correction += 1.0;
+	if (forward) {
+		Subsystems::driveBase.setMotors(-speed, -speed * correction);
+	} else {
+		Subsystems::driveBase.setMotors(speed, speed * correction);
+	}
 }
 
 bool DriveStraight::IsFinished() {
-	printf("/n/nDriveStraight IsFinished Called/n/n");
-	float time = TimeSinceInitialized();
-	int leftPosition = Subsystems::driveBase.getLeftPosition();
-	int rightPosition = Subsystems::driveBase.getRightPosition();
-	return(leftPosition > ticks) || (rightPosition > ticks) || (time > timeout);
+	int leftPosition = abs(Subsystems::driveBase.getLeftPosition());
+	int rightPosition = abs(Subsystems::driveBase.getRightPosition());
+	return (leftPosition > ticks) || (rightPosition > ticks) || IsTimedOut();
 }
 
 void DriveStraight::Interrupted() {
-	printf("/n/nDriveStraight Interrupted Called/n/n");
 	Subsystems::driveBase.setMotors(0,0);
 }
 
 void DriveStraight::End() {
-	printf("/n/nDriveStraight End Called/n/n");
 	Subsystems::driveBase.setMotors(0,0);
 }
 
 int DriveStraight::convertToTicks(float inches) {
-	return(4096/(6*3.1415926)*inches);
+	return(4096 / (6 * 3.1415926) * inches);
 }

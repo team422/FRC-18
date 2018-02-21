@@ -1,5 +1,5 @@
 #include "UI.hpp"
 
-UI::UI(int left, int right) : leftJoystick(left), rightJoystick(right) {
+UI::UI(int left, int right, int xboxPort) : leftJoystick(left), rightJoystick(right), controller(xboxPort) {
 
 }

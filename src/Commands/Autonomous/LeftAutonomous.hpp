@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Commands/CommandGroup.h"
-#include "DriveStraight.hpp"
-#include "Turn.hpp"
+#include <WPILib.h>
 
 class LeftAutonomous: public frc::CommandGroup {
 public:
 	LeftAutonomous();
+	void setShouldScore(bool scale, bool shouldScore);
 };

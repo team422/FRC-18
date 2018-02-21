@@ -7,7 +7,8 @@ DriveBase::DriveBase() :
 	leftFollower1(Ports::LEFT_FOLLOWER_1),
 	leftFollower2(Ports::LEFT_FOLLOWER_2),
 	rightFollower1(Ports::RIGHT_FOLLOWER_1),
-	rightFollower2(Ports::RIGHT_FOLLOWER_2) {
+	rightFollower2(Ports::RIGHT_FOLLOWER_2),
+	beamBrake(Ports::BEAM_BRAKE) {
 		leftFollower1.SetInverted(true);
 		leftMasterMotor.SetInverted(true);
 		leftFollower2.SetInverted(true);
@@ -22,8 +23,8 @@ DriveBase::DriveBase() :
 }
 
 void DriveBase::setMotors(float left, float right) {
-	leftMasterMotor.Set(ControlMode::PercentOutput, left);
-	rightMasterMotor.Set(ControlMode::PercentOutput, right);
+	leftMasterMotor.Set(ControlMode::PercentOutput, left * 0.8f);
+	rightMasterMotor.Set(ControlMode::PercentOutput, right * 0.8f);
 }
 
 int DriveBase::getLeftPosition() {
@@ -56,4 +57,8 @@ void DriveBase::zeroEncoderPosition() {
 
 void DriveBase::zeroGyroAngle() {
 	gyro.Reset();
+}
+
+bool DriveBase::getBeamBrake() {
+	return !beamBrake.Get();
 }

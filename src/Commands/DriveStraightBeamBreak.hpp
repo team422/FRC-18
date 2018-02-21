@@ -2,15 +2,14 @@
 
 #include <WPILib.h>
 
-class TankDrive : public frc::Command {
+class DriveStraightBeamBreak : public frc::Command {
 public:
-	TankDrive();
+	DriveStraightBeamBreak(float speed, float timeout);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void Interrupted();
 	void End();
 private:
-	float leftSpeed, rightSpeed;
-	const float MAX_CHANGE = 0.04f;
+	float speed;
 };

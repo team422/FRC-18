@@ -2,23 +2,23 @@
 
 #include <WPILib.h>
 #include "Subsystems/Subsystems.hpp"
-#include "Commands/DriveStraight.hpp"
-#include "Commands/Turn.hpp"
-#include "Commands/RightAutonomous.hpp"
-#include "Commands/LeftAutonomous.hpp"
+#include "Commands/Autonomous/LeftAutonomous.hpp"
+#include "Commands/Autonomous/RightAutonomous.hpp"
+#include "Commands/Autonomous/CenterAutonomous.hpp"
 
 class Robot : public frc::IterativeRobot {
-
 public:
-	Robot() {}
+	Robot() : leftAuto(), centerAuto(), rightAuto() {}
 	void RobotInit();
-	void DisabledInit() {}
-	void DisabledPeriodic() {}
+	void DisabledInit();
+	void DisabledPeriodic();
 	void AutonomousInit();
 	void AutonomousPeriodic();
 	void TeleopInit();
 	void TeleopPeriodic();
 private:
-	RightAutonomous rightAuto;
+	cs::UsbCamera camera;
 	LeftAutonomous leftAuto;
+	CenterAutonomous centerAuto;
+	RightAutonomous rightAuto;
 };
