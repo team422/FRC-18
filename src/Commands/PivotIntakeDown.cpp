@@ -10,7 +10,7 @@ void PivotIntakeDown::Initialize() {
 }
 
 void PivotIntakeDown::Execute() {
-	Subsystems::intake.pivotDown();
+	Subsystems::intake.setPivotSpeed(-0.4f);
 }
 
 bool PivotIntakeDown::IsFinished() {
@@ -22,9 +22,9 @@ bool PivotIntakeDown::IsFinished() {
 }
 
 void PivotIntakeDown::Interrupted() {
-	Cancel();
+
 }
 
 void PivotIntakeDown::End() {
-	Subsystems::intake.stopPivot();
+	Subsystems::intake.setPivotSpeed(0.0f);
 }

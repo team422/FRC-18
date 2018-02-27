@@ -6,12 +6,9 @@
 class Guillotine: public frc::Subsystem {
 public:
 	Guillotine();
-	virtual ~Guillotine();
 	void hold();
 	void kick();
-	void raiseLift();
-	void lowerLift();
-	void stopLift();
+	void setLiftSpeed(float speed);
 	bool getUpperSwitchValue();
 	bool getLowerSwitchValue();
 private:

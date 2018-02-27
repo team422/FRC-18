@@ -27,10 +27,8 @@ bool DriveStraightBeamBreak::IsFinished() {
 
 void DriveStraightBeamBreak::Interrupted() {
 	Subsystems::driveBase.setMotors(0,0);
-	Cancel();
 }
 
 void DriveStraightBeamBreak::End() {
 	Subsystems::driveBase.setMotors(0,0);
-	Cancel();
 }

@@ -66,6 +66,7 @@ namespace Ports {
 
 	// Joystick IDs
 	const int	XBOX_CONTROLLER = 0,
+				LAUNCHPAD = 1,
 				LEFT_JOYSTICK = 3,
 				RIGHT_JOYSTICK = 2;
 

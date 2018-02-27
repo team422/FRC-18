@@ -7,36 +7,41 @@
 #include "Commands/GuillotineHold.hpp"
 #include "Commands/GuillotineKick.hpp"
 #include "Robot.hpp"
+#include "UserInterface/UI.hpp"
 
 void Robot::RobotInit() {
 	Subsystems::compressor.Start();
-	Subsystems::userInterface.controller.A.WhenPressed(new IntakeGrab());
-	Subsystems::userInterface.controller.B.WhenPressed(new IntakeRelease());
-	Subsystems::userInterface.controller.LB.WhenPressed(new GuillotineHold());
-	Subsystems::userInterface.controller.RB.WhenPressed(new GuillotineKick());
-	Subsystems::userInterface.controller.START.WhenPressed(new IntakeBox());
+	UserInterface::userInterface.controller.A.WhenPressed(new IntakeGrab());
+	UserInterface::userInterface.controller.B.WhenPressed(new IntakeRelease());
+	UserInterface::userInterface.controller.LB.WhenPressed(new GuillotineHold());
+	UserInterface::userInterface.controller.RB.WhenPressed(new GuillotineKick());
+	UserInterface::userInterface.controller.START.WhenPressed(new IntakeBox());
 	camera = CameraServer::GetInstance()->StartAutomaticCapture();
+	Subsystems::arduino.sendCommand("0001111");
 }
 
 void Robot::DisabledInit() {
-
+	Subsystems::arduino.sendCommand("0001111");
 }
 
 void Robot::DisabledPeriodic() {
-
+	SmartDashboard::PutBoolean("Lift Upper Switch", Subsystems::guillotine.getUpperSwitchValue());
+	SmartDashboard::PutBoolean("Lift Lower Switch", Subsystems::guillotine.getLowerSwitchValue());
+	SmartDashboard::PutBoolean("Intake Upper Switch", Subsystems::intake.getUpperSwitchValue());
+	SmartDashboard::PutBoolean("Intake Lower Switch", Subsystems::intake.getLowerSwitchValue());
 }
 
 void Robot::AutonomousInit() {
+	Subsystems::arduino.sendCommand("0005551");
 	std::string gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
-	int position = 0; // Get position data from DS
-	if (position == 0) {
-		leftAuto.setShouldScore(true, true);
+	if (UserInterface::userInterface.launchpad.getMultiSwitchLeft()) {
+		leftAuto.setShouldScore(UserInterface::userInterface.launchpad.getSwitch1(), gameData[0] == 'L' ? true : false);
 		leftAuto.Start();
-	} else if (position == 1) {
+	} else if (UserInterface::userInterface.launchpad.getMultiSwitchInactive()) {
 		centerAuto.setSideToScore(gameData[0], 0, true);
 		centerAuto.Start();
-	} else if (position == 2) {
-		rightAuto.setShouldScore(gameData[0] == 'R' ? true : false);
+	} else if (UserInterface::userInterface.launchpad.getMultiSwitchRight()) {
+		rightAuto.setShouldScore(UserInterface::userInterface.launchpad.getSwitch1(), gameData[0] == 'R' ? true : false);
 		rightAuto.Start();
 	}
 }
@@ -46,27 +51,41 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+	if (DriverStation::GetInstance().GetAlliance() == DriverStation::Alliance::kRed) {
+		Subsystems::arduino.sendCommand("0003331");
+	} else {
+		Subsystems::arduino.sendCommand("0002221");
+	}
 	leftAuto.Cancel();
 	centerAuto.Cancel();
 	rightAuto.Cancel();
 }
 
 void Robot::TeleopPeriodic() {
-	Subsystems::guillotine.stopLift();
-	if (Subsystems::userInterface.controller.X.Get()) {
-		Subsystems::guillotine.raiseLift();
-	} else if (Subsystems::userInterface.controller.Y.Get()) {
-		Subsystems::guillotine.lowerLift();
+	Subsystems::guillotine.setLiftSpeed(0.0f);
+	if (UserInterface::userInterface.controller.X.Get()) {
+		Subsystems::guillotine.setLiftSpeed(0.9f);
+	} else if (UserInterface::userInterface.controller.Y.Get()) {
+		Subsystems::guillotine.setLiftSpeed(-0.4f);
 	}
-	Subsystems::intake.stopArms();
-	if (Subsystems::userInterface.controller.getLeftTrigger() > 0.1f) {
-		Subsystems::intake.setArmsIn();
-	} else if (Subsystems::userInterface.controller.getRightTrigger() > 0.1f) {
-		Subsystems::intake.setArmsOut();
+	Subsystems::intake.setArmsSpeed(0.0f);
+	if (UserInterface::userInterface.controller.getLeftTrigger() > 0.1f) {
+		Subsystems::intake.setArmsSpeed(UserInterface::userInterface.controller.getLeftTrigger());
+	} else if (UserInterface::userInterface.controller.getRightTrigger() > 0.1f) {
+		Subsystems::intake.setArmsSpeed(-UserInterface::userInterface.controller.getRightTrigger());
 	}
-	Subsystems::intake.setPivotSpeed(Subsystems::userInterface.controller.getLeftJoystickY());
+	Subsystems::intake.setPivotSpeed(0.0f);
+	if (UserInterface::userInterface.controller.getLeftJoystickY() < -0.6f) {
+		Subsystems::intake.setPivotSpeed(-UserInterface::userInterface.controller.getLeftJoystickY());
+	} else if (UserInterface::userInterface.controller.getRightJoystickY() < -0.2f) {
+		Subsystems::intake.setPivotSpeed(UserInterface::userInterface.controller.getRightJoystickY());
+	}
 	Scheduler::GetInstance()->Run();
 	SmartDashboard::PutNumber("Ultrasonic", Subsystems::intake.getUltrasonicDistance());
+	SmartDashboard::PutBoolean("Lift Upper Switch", Subsystems::guillotine.getUpperSwitchValue());
+	SmartDashboard::PutBoolean("Lift Lower Switch", Subsystems::guillotine.getLowerSwitchValue());
+	SmartDashboard::PutBoolean("Intake Upper Switch", Subsystems::intake.getUpperSwitchValue());
+	SmartDashboard::PutBoolean("Intake Lower Switch", Subsystems::intake.getLowerSwitchValue());
 }
 
 START_ROBOT_CLASS(Robot);

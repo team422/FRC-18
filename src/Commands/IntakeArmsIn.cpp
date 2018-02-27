@@ -10,7 +10,7 @@ void IntakeArmsIn::Initialize() {
 }
 
 void IntakeArmsIn::Execute() {
-	Subsystems::intake.setArmsIn();
+	Subsystems::intake.setArmsSpeed(0.4f);
 }
 
 bool IntakeArmsIn::IsFinished() {

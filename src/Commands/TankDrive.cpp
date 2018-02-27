@@ -1,5 +1,6 @@
 #include "TankDrive.hpp"
 #include "../Subsystems/Subsystems.hpp"
+#include "../UserInterface/UI.hpp"
 #include "../Subsystems/DriveBase.hpp"
 
 #include <cmath>
@@ -15,14 +16,14 @@ void TankDrive::Initialize() {
 }
 
 void TankDrive::Execute() {
-	float left = Subsystems::userInterface.leftJoystick.GetY();
+	float left = UserInterface::userInterface.leftJoystick.GetY();
 	float leftDifference = left - leftSpeed;
 	if (leftDifference > MAX_CHANGE) {
 		left = leftSpeed + MAX_CHANGE;
 	} else if (leftDifference < -MAX_CHANGE) {
 		left = leftSpeed - MAX_CHANGE;
 	}
-	float right = Subsystems::userInterface.rightJoystick.GetY();
+	float right = UserInterface::userInterface.rightJoystick.GetY();
 	float rightDifference = right - rightSpeed;
 	if (rightDifference > MAX_CHANGE) {
 		right = rightSpeed + MAX_CHANGE;

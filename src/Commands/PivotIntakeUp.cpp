@@ -1,7 +1,7 @@
 #include "PivotIntakeUp.hpp"
 #include "../Subsystems/Subsystems.hpp"
 
-PivotIntakeUp::PivotIntakeUp(float time) : Command(time), time(time) {
+PivotIntakeUp::PivotIntakeUp(bool forTimeOnly, float time) : Command(time), forTimeOnly(forTimeOnly), time(time) {
 	Requires(&Subsystems::intake);
 }
 
@@ -10,21 +10,21 @@ void PivotIntakeUp::Initialize() {
 }
 
 void PivotIntakeUp::Execute() {
-	Subsystems::intake.pivotUp();
+	Subsystems::intake.setPivotSpeed(0.6f);
 }
 
 bool PivotIntakeUp::IsFinished() {
-	if (time != 0.0f) {
+	if (forTimeOnly) {
 		return IsTimedOut();
 	} else {
-		return Subsystems::intake.getLowerSwitchValue();
+		return Subsystems::intake.getLowerSwitchValue() || IsTimedOut();
 	}
 }
 
 void PivotIntakeUp::Interrupted() {
-	Cancel();
+
 }
 
 void PivotIntakeUp::End() {
-	Subsystems::intake.stopPivot();
+	Subsystems::intake.setPivotSpeed(0.0f);
 }

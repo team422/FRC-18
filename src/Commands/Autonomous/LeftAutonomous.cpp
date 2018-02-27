@@ -1,14 +1,15 @@
-#include <Commands/DriveStraightBeamBreak.hpp>
 #include "LeftAutonomous.hpp"
+#include "../DriveStraightBeamBreak.hpp"
 #include "../DriveStraight.hpp"
 #include "../GuillotineHold.hpp"
 #include "../GuillotineKick.hpp"
+#include "../GuillotineRaise.hpp"
+#include "../GuillotineLower.hpp"
 #include "../IntakeGrab.hpp"
 #include "../PivotIntakeDown.hpp"
 #include "../IntakeArmsOut.hpp"
 #include "../IntakeArmsStop.hpp"
 #include "../Turn.hpp"
-#include "../GuillotineScore.hpp"
 
 LeftAutonomous::LeftAutonomous() {
 
@@ -35,6 +36,7 @@ void LeftAutonomous::setShouldScore(bool scale, bool shouldScore) {
 		AddSequential(new DriveStraight(87.743, 0.5, true, 10.0));
 		AddSequential(new Turn(-45.3, 0.7, 8.0));
 		AddSequential(new DriveStraight(12, 0.4, true, 4.0));
-		AddSequential(new GuillotineScore());
+		AddSequential(new GuillotineRaise());
+		AddSequential(new GuillotineKick());
 	}
 }

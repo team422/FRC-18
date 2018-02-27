@@ -10,7 +10,7 @@ void IntakeArmsStop::Initialize() {
 }
 
 void IntakeArmsStop::Execute() {
-	Subsystems::intake.stopArms();
+	Subsystems::intake.setArmsSpeed(0.0f);
 }
 
 bool IntakeArmsStop::IsFinished() {

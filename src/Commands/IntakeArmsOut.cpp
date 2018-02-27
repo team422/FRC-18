@@ -10,7 +10,7 @@ void IntakeArmsOut::Initialize() {
 }
 
 void IntakeArmsOut::Execute() {
-	Subsystems::intake.setArmsOut();
+	Subsystems::intake.setArmsSpeed(-0.4f);
 }
 
 bool IntakeArmsOut::IsFinished() {
@@ -18,7 +18,7 @@ bool IntakeArmsOut::IsFinished() {
 }
 
 void IntakeArmsOut::Interrupted() {
-	Cancel();
+
 }
 
 void IntakeArmsOut::End() {

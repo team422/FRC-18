@@ -10,7 +10,7 @@ void GuillotineRaise::Initialize() {
 }
 
 void GuillotineRaise::Execute() {
-	Subsystems::guillotine.raiseLift();
+	Subsystems::guillotine.setLiftSpeed(0.9f);
 }
 
 bool GuillotineRaise::IsFinished() {
@@ -18,9 +18,9 @@ bool GuillotineRaise::IsFinished() {
 }
 
 void GuillotineRaise::Interrupted() {
-	Subsystems::guillotine.stopLift();
+	Subsystems::guillotine.setLiftSpeed(0.0f);
 }
 
 void GuillotineRaise::End() {
-	Subsystems::guillotine.stopLift();
+	Subsystems::guillotine.setLiftSpeed(0.0f);
 }

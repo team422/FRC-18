@@ -8,14 +8,9 @@
 class Intake : public frc::Subsystem {
 public:
 	Intake();
-	void stopArms();
-	void setArmsIn();
-	void setArmsOut();
+	void setArmsSpeed(float speed);
 	void grab();
 	void release();
-	void stopPivot();
-	void pivotUp();
-	void pivotDown();
 	void setPivotSpeed(float speed);
 	bool getUpperSwitchValue();
 	bool getLowerSwitchValue();
@@ -28,5 +23,4 @@ private:
 	TalonSRX pivot, leftArm, rightArm;
 	DigitalInput upperSwitch, lowerSwitch;
 	AnalogInput ultrasonic;
-	bool isIntaking;
 };

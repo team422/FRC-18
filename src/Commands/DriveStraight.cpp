@@ -23,7 +23,7 @@ void DriveStraight::Execute() {
 	if (forward) {
 		Subsystems::driveBase.setMotors(-speed, -speed * correction);
 	} else {
-		Subsystems::driveBase.setMotors(speed, speed * correction);
+		Subsystems::driveBase.setMotors(speed * correction, speed);
 	}
 }
 

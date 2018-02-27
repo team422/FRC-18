@@ -3,15 +3,13 @@
 #include "Intake.hpp"
 #include "DriveBase.hpp"
 #include "Guillotine.hpp"
-#include "../UI.hpp"
-#include "../RobotMap.h"
 #include "ArduinoController.hpp"
+#include "../RobotMap.h"
 
 namespace Subsystems {
 	extern DriveBase driveBase;
-	extern UI userInterface;
 	extern Compressor compressor;
 	extern Intake intake;
 	extern Guillotine guillotine;
-	extern ArduinoController arduinoController;
+	extern ArduinoController arduino;
 }

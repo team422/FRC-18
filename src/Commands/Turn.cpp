@@ -56,7 +56,6 @@ bool Turn::IsFinished() {
 
 void Turn::Interrupted() {
 	Subsystems::driveBase.setMotors(0,0);
-	Cancel();
 }
 
 void Turn::End() {

@@ -10,42 +10,48 @@ lowerSwitch(Ports::GUILLOTINE_LOWER_SWITCH) {
 
 }
 
-Guillotine::~Guillotine() {
-
-}
-
+/**
+ * Causes the guillotine to hold down
+ */
 void Guillotine::hold() {
 	kicker.Set(DoubleSolenoid::Value::kForward);
 }
 
+/**
+ * Causes the guillotine to kick
+ */
 void Guillotine::kick() {
 	kicker.Set(DoubleSolenoid::Value::kReverse);
 }
 
-void Guillotine::raiseLift() {
-	if (!getUpperSwitchValue()) {
-		lift.Set(ControlMode::PercentOutput, 0.9f);
-	} else {
-		stopLift();
-	}
-}
-
-void Guillotine::lowerLift() {
-	if (!getLowerSwitchValue()) {
-		lift.Set(ControlMode::PercentOutput, -0.4f);
-	} else {
-		stopLift();
-	}
-}
-
-void Guillotine::stopLift() {
+/**
+ * Sets the lift to the given speed
+ * A positive speed will cause the lift to rise, while a negative
+ * speed will cause it to fall
+ */
+void Guillotine::setLiftSpeed(float speed) {
 	lift.Set(ControlMode::PercentOutput, 0.0f);
+	if (speed > 0 && !getUpperSwitchValue()) {
+		// If the lift can go up, let it
+		lift.Set(ControlMode::PercentOutput, speed);
+	} else if (speed < 0 && !getLowerSwitchValue()) {
+		// If the lift can go down, let it
+		lift.Set(ControlMode::PercentOutput, speed);
+	}
 }
 
+/**
+ * Returns whether the upper switch is active.
+ * This occurs when the lift is fully raised
+ */
 bool Guillotine::getUpperSwitchValue() {
 	return !upperSwitch.Get();
 }
 
+/**
+ * Returns whether the lower switch is active.
+ * This occurs when the lift is fully lowered
+ */
 bool Guillotine::getLowerSwitchValue() {
 	return !lowerSwitch.Get();
 }
