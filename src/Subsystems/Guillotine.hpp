@@ -11,6 +11,7 @@ public:
 	void setLiftSpeed(float speed);
 	bool getUpperSwitchValue();
 	bool getLowerSwitchValue();
+	int getLiftPosition();
 private:
 	DoubleSolenoid kicker;
 	TalonSRX lift;

@@ -10,7 +10,7 @@ void PivotIntakeDown::Initialize() {
 }
 
 void PivotIntakeDown::Execute() {
-	Subsystems::intake.setPivotSpeed(-0.4f);
+	Subsystems::intake.setPivotSpeed(-0.1f);
 }
 
 bool PivotIntakeDown::IsFinished() {

@@ -5,5 +5,5 @@
 class LeftAutonomous: public frc::CommandGroup {
 public:
 	LeftAutonomous();
-	void setShouldScore(bool scale, bool shouldScore);
+	void setShouldScore(char side, bool scale);
 };

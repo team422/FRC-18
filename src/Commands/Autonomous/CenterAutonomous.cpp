@@ -21,93 +21,39 @@ CenterAutonomous::CenterAutonomous() {
  * 				1 = side
  * score	should the robot score
  */
-void CenterAutonomous::setSideToScore(char c, int mode, bool score) {
+void CenterAutonomous::setSideToScore(char c, bool score) {
 	AddSequential(new GuillotineHold());
 	AddSequential(new IntakeGrab());
-	if (c == 'L' && mode == 0 && score) {
+	if (c == 'L' && score) {
 		// Score on the left side on the front of the switch
 		AddSequential(new DriveStraight(10.968, 0.5, true, 5));
 		AddSequential(new Turn(-50, 0.7, 5));
-		AddSequential(new DriveStraight(60.877, 0.5, true, 5));
+		AddSequential(new DriveStraight(50.877, 0.5, true, 5));
 		AddSequential(new Turn(50, 0.7, 5));
-		AddSequential(new DriveStraightBeamBreak(0.3, 5));
-		AddSequential(new DriveStraight(1, 0.3, true, 5));
+		AddSequential(new DriveStraight(60, 0.5, true, 3));
+//		AddSequential(new DriveStraightBeamBreak(0.3, 1));
+//		AddSequential(new DriveStraight(1, 0.3, true, 5));
 		AddSequential(new GuillotineKick());
 		AddSequential(new PivotIntakeDown(0.1f));
 		AddSequential(new IntakeArmsOut());
 		AddSequential(new WaitCommand(1));
 		AddSequential(new IntakeArmsStop());
 		AddSequential(new PivotIntakeUp(true, 0.2f));
-		AddSequential(new DriveStraight(50, 0.5, false, 5));
-		AddSequential(new Turn(90, 0.7, 2));
-	} else if (c == 'R' && mode == 0 && score) {
+	} else if (c == 'R' && score) {
 		// Score on the right side on the front of the switch
 		AddSequential(new DriveStraight(10.968, 0.5, true, 5));
 		AddSequential(new Turn(50, 0.7, 5));
-		AddSequential(new DriveStraight(60.877, 0.5, true, 5));
+		AddSequential(new DriveStraight(50.877, 0.5, true, 5));
 		AddSequential(new Turn(-50, 0.7, 5));
-		AddSequential(new DriveStraightBeamBreak(0.3, 5));
-		AddSequential(new DriveStraight(1, 0.3, true, 5));
+		AddSequential(new DriveStraight(60, 0.5, true, 3));
+//		AddSequential(new DriveStraightBeamBreak(0.3, 1));
+//		AddSequential(new DriveStraight(1, 0.3, true, 5));
 		AddSequential(new GuillotineKick());
 		AddSequential(new PivotIntakeDown(0.1f));
 		AddSequential(new IntakeArmsOut());
 		AddSequential(new WaitCommand(1));
 		AddSequential(new IntakeArmsStop());
 		AddSequential(new PivotIntakeUp(true, 0.2f));
-		AddSequential(new DriveStraight(50, 0.5, false, 5));
-		AddSequential(new Turn(-90, 0.7, 2));
-//	} else if (c == 'L' && mode == 1 && score) {
-//		// Score on the left side on the side of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.35, 40));
-//		AddSequential(new DriveStraight(143.285, 0.5, 40));
-//		AddSequential(new Turn(50, 0.35, 40));
-//		AddSequential(new DriveStraight(17.122, 0.5, 40));
-//		AddSequential(new Turn(90, 0.35, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
-//	} else if (c == 'R' && mode == 1 && score) {
-//		// Score on the right side on the side of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(50, 0.35, 40));
-//		AddSequential(new DriveStraight(143.285, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.35, 40));
-//		AddSequential(new DriveStraight(17.122, 0.5, 40));
-//		AddSequential(new Turn(-90, 0.35, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
-//	} else if (c == 'L' && mode == 0 && !score) {
-//		// Move to the left front of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.7, 40));
-//		AddSequential(new DriveStraight(60.877, 0.5, 40));
-//		AddSequential(new Turn(50, 0.7, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
-//		AddSequential(new DriveStraight(1, 0.3, 10));
-//	} else if (c == 'R' && mode == 0 && !score) {
-//		// Move to the right front of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(50, 0.7, 40));
-//		AddSequential(new DriveStraight(60.877, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.7, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
-//		AddSequential(new DriveStraight(1, 0.3, 10));
-//	} else if (c == 'L' && mode == 1 && !score) {
-//		// Move to the left side of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.35, 40));
-//		AddSequential(new DriveStraight(143.285, 0.5, 40));
-//		AddSequential(new Turn(50, 0.35, 40));
-//		AddSequential(new DriveStraight(17.122, 0.5, 40));
-//		AddSequential(new Turn(90, 0.35, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
-//	} else if (c == 'R' && mode == 1 && !score) {
-//		// Move to the right side of the switch
-//		AddSequential(new DriveStraight(10.968, 0.5, 40));
-//		AddSequential(new Turn(50, 0.35, 40));
-//		AddSequential(new DriveStraight(143.285, 0.5, 40));
-//		AddSequential(new Turn(-50, 0.35, 40));
-//		AddSequential(new DriveStraight(17.122, 0.5, 40));
-//		AddSequential(new Turn(-90, 0.35, 40));
-//		AddSequential(new DriveStraightBeamBrake(0.3, 20));
 	}
 }
 

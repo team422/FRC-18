@@ -31,6 +31,9 @@ void Guillotine::kick() {
  */
 void Guillotine::setLiftSpeed(float speed) {
 	lift.Set(ControlMode::PercentOutput, 0.0f);
+	if (speed > 0) {
+		lift.Set(ControlMode::PercentOutput, 0.3f);
+	}
 	if (speed > 0 && !getUpperSwitchValue()) {
 		// If the lift can go up, let it
 		lift.Set(ControlMode::PercentOutput, speed);
@@ -54,4 +57,8 @@ bool Guillotine::getUpperSwitchValue() {
  */
 bool Guillotine::getLowerSwitchValue() {
 	return !lowerSwitch.Get();
+}
+
+int Guillotine::getLiftPosition() {
+	return lift.GetSelectedSensorPosition(0);
 }
