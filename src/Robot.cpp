@@ -76,6 +76,9 @@ void Robot::TeleopPeriodic() {
 		Subsystems::guillotine.setLiftSpeed(0.9f);
 	} else if (UserInterface::userInterface.controller.Y.Get()) {
 		Subsystems::guillotine.setLiftSpeed(-0.4f);
+		if (Subsystems::guillotine.getLowerSwitchValue()) {
+			Subsystems::guillotine.kick();
+		}
 	}
 	Subsystems::intake.setArmsSpeed(0.0f);
 	if (UserInterface::userInterface.controller.getLeftTrigger() > 0.1f) {

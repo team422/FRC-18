@@ -22,8 +22,8 @@ void RightAutonomous::setShouldScore(char side, bool scale) {
 	AddSequential(new GuillotineHold());
 	AddSequential(new IntakeGrab());
 	if (side == 'R' && !scale) {
-		AddSequential(new DriveStraight(134.275, 0.5, true, 10.0));
-		AddSequential(new Turn(-90.0, 0.7, 8.0));
+		AddSequential(new DriveStraight(142.275, 0.5, true, 6.0f));
+		AddSequential(new Turn(-90.0, 0.7, 3.0f));
 		AddSequential(new DriveStraight(12, 0.3, true, 1.5));
 		AddSequential(new DriveStraightBeamBreak(0.3, 5.0));
 		AddSequential(new DriveStraight(1, 0.3, true, 1));
@@ -55,6 +55,8 @@ void RightAutonomous::setShouldScore(char side, bool scale) {
 		AddSequential(new WaitCommand(0.5));
 		AddSequential(new DriveStraight(12,0.3,true,40));
 		AddSequential(new GuillotineKick());
+		AddSequential(new WaitCommand(2));
+		AddSequential(new DriveStraight(12,0.3,false,40));
 	} else {
 		AddSequential(new DriveStraight(180.0, 0.3, true, 10.0));
 	}
