@@ -12,6 +12,7 @@ public:
 	bool getUpperSwitchValue();
 	bool getLowerSwitchValue();
 	int getLiftPosition();
+	void zeroLiftPosition();
 private:
 	DoubleSolenoid kicker;
 	TalonSRX lift;

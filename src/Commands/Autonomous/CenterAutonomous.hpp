@@ -5,6 +5,6 @@
 class CenterAutonomous: public frc::CommandGroup {
 public:
 	CenterAutonomous();
-	void setSideToScore(char c, bool score);
+	void setSideToScore(char c);
 };
 

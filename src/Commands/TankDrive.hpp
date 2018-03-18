@@ -12,5 +12,5 @@ public:
 	void End();
 private:
 	float leftSpeed, rightSpeed;
-	const float MAX_CHANGE = 0.04f;
+	const float MAX_CHANGE = 0.08f;
 };

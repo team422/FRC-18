@@ -22,5 +22,5 @@ void GuillotineRaise::Interrupted() {
 }
 
 void GuillotineRaise::End() {
-	Subsystems::guillotine.setLiftSpeed(0.0f);
+	Subsystems::guillotine.setLiftSpeed(0.3f);
 }

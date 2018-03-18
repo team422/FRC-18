@@ -62,3 +62,7 @@ bool Guillotine::getLowerSwitchValue() {
 int Guillotine::getLiftPosition() {
 	return lift.GetSelectedSensorPosition(0);
 }
+
+void Guillotine::zeroLiftPosition() {
+	lift.SetSelectedSensorPosition(0, 0, 1);
+}

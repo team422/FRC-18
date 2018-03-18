@@ -16,6 +16,7 @@ public:
 	void AutonomousPeriodic();
 	void TeleopInit();
 	void TeleopPeriodic();
+	void printDataToSmartDashboard();
 private:
 	cs::UsbCamera camera;
 	LeftAutonomous leftAuto;

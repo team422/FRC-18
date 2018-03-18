@@ -1,4 +1,3 @@
-#include <Commands/DriveStraightBeamBreak.hpp>
 #include "CenterAutonomous.hpp"
 #include "../DriveStraight.hpp"
 #include "../GuillotineHold.hpp"
@@ -9,6 +8,7 @@
 #include "../IntakeArmsOut.hpp"
 #include "../IntakeArmsStop.hpp"
 #include "../Turn.hpp"
+#include "../ArduinoControllerSendCommand.hpp"
 
 CenterAutonomous::CenterAutonomous() {
 
@@ -16,44 +16,39 @@ CenterAutonomous::CenterAutonomous() {
 
 /**
  * c		the side to go to ('L' or 'R')
- * mode		the part of the switch to go to
- * 				0 = front
- * 				1 = side
  * score	should the robot score
  */
-void CenterAutonomous::setSideToScore(char c, bool score) {
+void CenterAutonomous::setSideToScore(char c) {
 	AddSequential(new GuillotineHold());
 	AddSequential(new IntakeGrab());
-	if (c == 'L' && score) {
+	if (c == 'L') {
 		// Score on the left side on the front of the switch
 		AddSequential(new DriveStraight(10.968, 0.5, true, 5));
 		AddSequential(new Turn(-50, 0.7, 5));
 		AddSequential(new DriveStraight(59.877, 0.5, true, 5));
 		AddSequential(new Turn(50, 0.7, 5));
-		AddSequential(new DriveStraight(60, 0.5, true, 3));
-//		AddSequential(new DriveStraightBeamBreak(0.3, 1));
-//		AddSequential(new DriveStraight(1, 0.3, true, 5));
+		AddSequential(new DriveStraight(50, 0.5, true, 2));
 		AddSequential(new GuillotineKick());
 		AddSequential(new PivotIntakeDown(0.3f));
 		AddSequential(new WaitCommand(0.5f));
 		AddSequential(new IntakeArmsOut());
 		AddSequential(new WaitCommand(4));
 		AddSequential(new IntakeArmsStop());
-	} else if (c == 'R' && score) {
+		AddSequential(new ArduinoControllerSendCommand());
+	} else if (c == 'R') {
 		// Score on the right side on the front of the switch
 		AddSequential(new DriveStraight(10.968, 0.5, true, 5));
 		AddSequential(new Turn(50, 0.7, 5));
 		AddSequential(new DriveStraight(54.877, 0.5, true, 5));
 		AddSequential(new Turn(-50, 0.7, 5));
-		AddSequential(new DriveStraight(60, 0.5, true, 3));
-//		AddSequential(new DriveStraightBeamBreak(0.3, 1));
-//		AddSequential(new DriveStraight(1, 0.3, true, 5));
+		AddSequential(new DriveStraight(50, 0.5, true, 2));
 		AddSequential(new GuillotineKick());
 		AddSequential(new PivotIntakeDown(0.3f));
 		AddSequential(new WaitCommand(0.5f));
 		AddSequential(new IntakeArmsOut());
 		AddSequential(new WaitCommand(4));
 		AddSequential(new IntakeArmsStop());
+		AddSequential(new ArduinoControllerSendCommand());
 	}
 }
 

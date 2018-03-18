@@ -1,5 +1,4 @@
 #include "Commands/IntakeBox.hpp"
-#include "Commands/GuillotineScore.hpp"
 #include "Commands/PivotIntakeDown.hpp"
 #include "Commands/PivotIntakeUp.hpp"
 #include "Commands/IntakeGrab.hpp"
@@ -18,6 +17,7 @@ void Robot::RobotInit() {
 	UserInterface::userInterface.controller.START.WhenPressed(new IntakeBox());
 	camera = CameraServer::GetInstance()->StartAutomaticCapture();
 	Subsystems::arduino.sendCommand("0001111");
+	Subsystems::guillotine.zeroLiftPosition();
 }
 
 void Robot::DisabledInit() {
@@ -25,31 +25,20 @@ void Robot::DisabledInit() {
 }
 
 void Robot::DisabledPeriodic() {
-	SmartDashboard::PutBoolean("Lift Upper Switch", Subsystems::guillotine.getUpperSwitchValue());
-	SmartDashboard::PutBoolean("Lift Lower Switch", Subsystems::guillotine.getLowerSwitchValue());
-	SmartDashboard::PutBoolean("Intake Upper Switch", Subsystems::intake.getUpperSwitchValue());
-	SmartDashboard::PutBoolean("Intake Lower Switch", Subsystems::intake.getLowerSwitchValue());
+	printDataToSmartDashboard();
 }
 
 void Robot::AutonomousInit() {
 	Subsystems::arduino.sendCommand("0005551");
 	std::string gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	if (UserInterface::userInterface.launchpad.getMultiSwitchLeft()) {
-		if (UserInterface::userInterface.launchpad.getSwitch1()) {
-			leftAuto.setShouldScore(gameData[1], true);
-		} else {
-			leftAuto.setShouldScore(gameData[0], false);
-		}
+		leftAuto.setShouldScore(gameData, UserInterface::userInterface.launchpad.getSwitch1());
 		leftAuto.Start();
 	} else if (UserInterface::userInterface.launchpad.getMultiSwitchInactive()) {
-		centerAuto.setSideToScore(gameData[0], true);
+		centerAuto.setSideToScore(gameData[0]);
 		centerAuto.Start();
 	} else if (UserInterface::userInterface.launchpad.getMultiSwitchRight()) {
-		if (UserInterface::userInterface.launchpad.getSwitch1()) {
-			rightAuto.setShouldScore(gameData[1], true);
-		} else {
-			rightAuto.setShouldScore(gameData[0], false);
-		}
+		rightAuto.setShouldScore(gameData, UserInterface::userInterface.launchpad.getSwitch1());
 		rightAuto.Start();
 	}
 }
@@ -73,7 +62,7 @@ void Robot::TeleopPeriodic() {
 	Subsystems::guillotine.setLiftSpeed(0.0f);
 	if (UserInterface::userInterface.controller.X.Get()) {
 		Subsystems::intake.release();
-		Subsystems::guillotine.setLiftSpeed(0.9f);
+		Subsystems::guillotine.setLiftSpeed(1.0f);
 	} else if (UserInterface::userInterface.controller.Y.Get()) {
 		Subsystems::guillotine.setLiftSpeed(-0.4f);
 		if (Subsystems::guillotine.getLowerSwitchValue()) {
@@ -84,7 +73,7 @@ void Robot::TeleopPeriodic() {
 	if (UserInterface::userInterface.controller.getLeftTrigger() > 0.1f) {
 		Subsystems::intake.setArmsSpeed(0.5f);
 	} else if (UserInterface::userInterface.controller.getRightTrigger() > 0.1f) {
-		Subsystems::intake.setArmsSpeed(-1.0f);
+		Subsystems::intake.setArmsSpeed(-0.9f);
 	}
 	Subsystems::intake.setPivotSpeed(0.0f);
 	if (UserInterface::userInterface.controller.getLeftJoystickY() < -0.6f) {
@@ -93,12 +82,21 @@ void Robot::TeleopPeriodic() {
 		Subsystems::intake.setPivotSpeed(UserInterface::userInterface.controller.getRightJoystickY());
 	}
 	Scheduler::GetInstance()->Run();
+	printDataToSmartDashboard();
+}
+
+void Robot::printDataToSmartDashboard() {
 	SmartDashboard::PutNumber("Ultrasonic", Subsystems::intake.getUltrasonicDistance());
 	SmartDashboard::PutBoolean("Lift Upper Switch", Subsystems::guillotine.getUpperSwitchValue());
 	SmartDashboard::PutBoolean("Lift Lower Switch", Subsystems::guillotine.getLowerSwitchValue());
 	SmartDashboard::PutBoolean("Intake Upper Switch", Subsystems::intake.getUpperSwitchValue());
 	SmartDashboard::PutBoolean("Intake Lower Switch", Subsystems::intake.getLowerSwitchValue());
 	SmartDashboard::PutNumber("Guillotine Position", Subsystems::guillotine.getLiftPosition());
+	SmartDashboard::PutNumber("Left Encoder", Subsystems::driveBase.getLeftPosition());
+	SmartDashboard::PutNumber("Right Encoder", Subsystems::driveBase.getRightPosition());
+	SmartDashboard::PutNumber("Left Arm Current", Subsystems::intake.getLeftArmCurrent());
+	SmartDashboard::PutNumber("Right Arm Current", Subsystems::intake.getRightArmCurrent());
+	SmartDashboard::PutNumber("Xbox POV", UserInterface::userInterface.controller.getPOVAngle());
 }
 
 START_ROBOT_CLASS(Robot);

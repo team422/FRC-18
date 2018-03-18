@@ -5,5 +5,5 @@
 class RightAutonomous: public frc::CommandGroup {
 public:
 	RightAutonomous();
-	void setShouldScore(char side, bool scale);
+	void setShouldScore(std::string gameData, bool scale);
 };

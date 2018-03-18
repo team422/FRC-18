@@ -16,8 +16,8 @@ namespace Ports {
 				RIGHT_FOLLOWER_2 = 46,
 
 				INTAKE_PIVOT = 16,
-				INTAKE_LEFT_ARM = 35,
-				INTAKE_RIGHT_ARM = 12,
+				INTAKE_LEFT_ARM = 12,
+				INTAKE_RIGHT_ARM = 35,
 
 				LIFT = 56;
 
