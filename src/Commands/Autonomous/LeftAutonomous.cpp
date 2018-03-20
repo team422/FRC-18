@@ -44,11 +44,11 @@ void LeftAutonomous::setShouldScore(std::string gameData, bool scale) {
 		AddSequential(new WaitCommand(4));
 		AddSequential(new IntakeArmsStop());
 	} else {
-		AddSequential(new DriveStraight(236.529, 0.5, true, 10.0));
+		AddSequential(new DriveStraight(212.529, 0.5, true, 10.0));
 		AddSequential(new Turn(90, 0.7, 10.0));
 		AddSequential(new DriveStraight(141.534, 0.7, true, 10.0));
 		AddSequential(new Turn(90, 0.7, 10.0));
-		AddSequential(new DriveStraight(18, 0.3, true, 10.0));
+		AddSequential(new DriveStraight(42, 0.3, true, 10.0));
 		AddSequential(new DriveStraightBeamBreak(0.3, 2.0));
 		AddSequential(new DriveStraight(1, 0.3, true, 10.0));
 		AddSequential(new GuillotineKick());
