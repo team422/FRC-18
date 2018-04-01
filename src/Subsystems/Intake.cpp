@@ -25,6 +25,11 @@ void Intake::setArmsSpeed(float speed) {
 	rightArm.Set(ControlMode::PercentOutput, speed);
 }
 
+void Intake::setArmsSpeed(float left, float right) {
+	leftArm.Set(ControlMode::PercentOutput, left);
+	rightArm.Set(ControlMode::PercentOutput, right);
+}
+
 /**
  * Causes the intake to grab
  */

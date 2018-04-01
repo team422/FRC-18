@@ -9,6 +9,7 @@ class Intake : public frc::Subsystem {
 public:
 	Intake();
 	void setArmsSpeed(float speed);
+	void setArmsSpeed(float left, float right);
 	void grab();
 	void release();
 	void setPivotSpeed(float speed);

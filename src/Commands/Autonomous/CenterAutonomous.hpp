@@ -1,10 +1,9 @@
 #pragma once
 
-#include <WPILib.h>
+#include "../Util/CommandBatch.hpp"
 
-class CenterAutonomous: public frc::CommandGroup {
+class CenterAutonomous : public CommandBatch {
 public:
-	CenterAutonomous();
-	void setSideToScore(char c);
+	CenterAutonomous(char c);
 };
 

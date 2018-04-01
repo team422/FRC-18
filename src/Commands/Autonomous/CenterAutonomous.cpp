@@ -10,15 +10,7 @@
 #include "../Turn.hpp"
 #include "../ArduinoControllerSendCommand.hpp"
 
-CenterAutonomous::CenterAutonomous() {
-
-}
-
-/**
- * c		the side to go to ('L' or 'R')
- * score	should the robot score
- */
-void CenterAutonomous::setSideToScore(char c) {
+CenterAutonomous::CenterAutonomous(char c) {
 	AddSequential(new GuillotineHold());
 	AddSequential(new IntakeGrab());
 	if (c == 'L') {

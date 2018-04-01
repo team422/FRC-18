@@ -1,9 +1,8 @@
 #pragma once
 
-#include <WPILib.h>
+#include "../Util/CommandBatch.hpp"
 
-class LeftAutonomous: public frc::CommandGroup {
+class LeftAutonomous : public CommandBatch {
 public:
-	LeftAutonomous();
-	void setShouldScore(std::string gameData, bool scale);
+	LeftAutonomous(std::string gameData, bool scale);
 };

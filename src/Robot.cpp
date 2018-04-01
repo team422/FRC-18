@@ -1,3 +1,4 @@
+#include "Robot.hpp"
 #include "Commands/IntakeBox.hpp"
 #include "Commands/PivotIntakeDown.hpp"
 #include "Commands/PivotIntakeUp.hpp"
@@ -5,8 +6,8 @@
 #include "Commands/IntakeRelease.hpp"
 #include "Commands/GuillotineHold.hpp"
 #include "Commands/GuillotineKick.hpp"
-#include "Robot.hpp"
 #include "UserInterface/UI.hpp"
+#include <cmath>
 
 void Robot::RobotInit() {
 	Subsystems::compressor.Start();
@@ -18,10 +19,14 @@ void Robot::RobotInit() {
 	camera = CameraServer::GetInstance()->StartAutomaticCapture();
 	Subsystems::arduino.sendCommand("0001111");
 	Subsystems::guillotine.zeroLiftPosition();
+	currentGuillotinePosition = floor((double) ((double) Subsystems::guillotine.getLiftPosition()) / 20.0d);
+	SmartDashboard::PutString("Auto State", "Destroyed");
+	isLast30Seconds = false;
 }
 
 void Robot::DisabledInit() {
 	Subsystems::arduino.sendCommand("0001111");
+	destroyAutonomous();
 }
 
 void Robot::DisabledPeriodic() {
@@ -32,19 +37,19 @@ void Robot::AutonomousInit() {
 	Subsystems::arduino.sendCommand("0005551");
 	std::string gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	if (UserInterface::userInterface.launchpad.getMultiSwitchLeft()) {
-		leftAuto.setShouldScore(gameData, UserInterface::userInterface.launchpad.getSwitch1());
-		leftAuto.Start();
+		autonomous = new LeftAutonomous(gameData, UserInterface::userInterface.launchpad.getSwitch1());
 	} else if (UserInterface::userInterface.launchpad.getMultiSwitchInactive()) {
-		centerAuto.setSideToScore(gameData[0]);
-		centerAuto.Start();
+		autonomous = new CenterAutonomous(gameData[0]);
 	} else if (UserInterface::userInterface.launchpad.getMultiSwitchRight()) {
-		rightAuto.setShouldScore(gameData, UserInterface::userInterface.launchpad.getSwitch1());
-		rightAuto.Start();
+		autonomous = new RightAutonomous(gameData, UserInterface::userInterface.launchpad.getSwitch1());
 	}
+	SmartDashboard::PutString("Auto State", "Initialized");
+	autonomous->Start();
 }
 
 void Robot::AutonomousPeriodic() {
 	Scheduler::GetInstance()->Run();
+	printDataToSmartDashboard();
 }
 
 void Robot::TeleopInit() {
@@ -53,14 +58,40 @@ void Robot::TeleopInit() {
 	} else {
 		Subsystems::arduino.sendCommand("0002221");
 	}
-	leftAuto.Cancel();
-	centerAuto.Cancel();
-	rightAuto.Cancel();
+	destroyAutonomous();
 }
 
 void Robot::TeleopPeriodic() {
 	Subsystems::guillotine.setLiftSpeed(0.0f);
-	if (UserInterface::userInterface.controller.X.Get()) {
+	if (UserInterface::userInterface.controller.getPOVAngle() == 270) {
+		Subsystems::intake.release();
+		if (Subsystems::guillotine.getLiftPosition() < 756) {
+			Subsystems::guillotine.setLiftSpeed(1.0f);
+		} else {
+			Subsystems::guillotine.setLiftSpeed(0.25f);
+		}
+	} else if (UserInterface::userInterface.controller.getPOVAngle() == 0) {
+		Subsystems::intake.release();
+		if (Subsystems::guillotine.getLiftPosition() < 1500) {
+			Subsystems::guillotine.setLiftSpeed(1.0f);
+		} else {
+			Subsystems::guillotine.setLiftSpeed(0.25f);
+		}
+	} else if (UserInterface::userInterface.controller.getPOVAngle() == 90) {
+		Subsystems::intake.release();
+		if (Subsystems::guillotine.getLiftPosition() < 1800) {
+			Subsystems::guillotine.setLiftSpeed(1.0f);
+		} else {
+			Subsystems::guillotine.setLiftSpeed(0.25f);
+		}
+	} else if (UserInterface::userInterface.controller.getPOVAngle() == 180) {
+		Subsystems::intake.release();
+		if (Subsystems::guillotine.getLiftPosition() < 2160) {
+			Subsystems::guillotine.setLiftSpeed(1.0f);
+		} else {
+			Subsystems::guillotine.setLiftSpeed(0.25f);
+		}
+	} else if (UserInterface::userInterface.controller.X.Get()) {
 		Subsystems::intake.release();
 		Subsystems::guillotine.setLiftSpeed(1.0f);
 	} else if (UserInterface::userInterface.controller.Y.Get()) {
@@ -71,9 +102,9 @@ void Robot::TeleopPeriodic() {
 	}
 	Subsystems::intake.setArmsSpeed(0.0f);
 	if (UserInterface::userInterface.controller.getLeftTrigger() > 0.1f) {
-		Subsystems::intake.setArmsSpeed(0.5f);
+		Subsystems::intake.setArmsSpeed(0.3f, 0.5f);
 	} else if (UserInterface::userInterface.controller.getRightTrigger() > 0.1f) {
-		Subsystems::intake.setArmsSpeed(-0.9f);
+		Subsystems::intake.setArmsSpeed(-0.45f);
 	}
 	Subsystems::intake.setPivotSpeed(0.0f);
 	if (UserInterface::userInterface.controller.getLeftJoystickY() < -0.6f) {
@@ -81,7 +112,35 @@ void Robot::TeleopPeriodic() {
 	} else if (UserInterface::userInterface.controller.getRightJoystickY() < -0.2f) {
 		Subsystems::intake.setPivotSpeed(UserInterface::userInterface.controller.getRightJoystickY());
 	}
+	if (Subsystems::guillotine.getLowerSwitchValue()) {
+		Subsystems::guillotine.zeroLiftPosition();
+	}
 	Scheduler::GetInstance()->Run();
+	// Proportional lights
+	if (!isLast30Seconds) {
+		double lastGuillotinePosition = currentGuillotinePosition;
+		currentGuillotinePosition = floor((double) ((double) Subsystems::guillotine.getLiftPosition()) / 72.0d);
+		if (lastGuillotinePosition != currentGuillotinePosition) {
+			std::string cmd = std::to_string((int) (currentGuillotinePosition / 30.0d * 255.0d));
+			while (cmd.size() < 3) {
+				cmd = "0" + cmd;
+			}
+			if (DriverStation::GetInstance().GetAlliance() == DriverStation::Alliance::kRed) {
+				Subsystems::arduino.sendCommand(cmd + "1332");
+			} else {
+				Subsystems::arduino.sendCommand(cmd + "1222");
+			}
+		}
+	}
+	// Only run once through
+	if ((m_ds.GetMatchTime() < 30) && !isLast30Seconds) {
+		if (DriverStation::GetInstance().GetAlliance() == DriverStation::Alliance::kRed) {
+			Subsystems::arduino.sendCommand("0003303");
+		} else {
+			Subsystems::arduino.sendCommand("0002203");
+		}
+		isLast30Seconds = !isLast30Seconds;
+	}
 	printDataToSmartDashboard();
 }
 
@@ -97,6 +156,18 @@ void Robot::printDataToSmartDashboard() {
 	SmartDashboard::PutNumber("Left Arm Current", Subsystems::intake.getLeftArmCurrent());
 	SmartDashboard::PutNumber("Right Arm Current", Subsystems::intake.getRightArmCurrent());
 	SmartDashboard::PutNumber("Xbox POV", UserInterface::userInterface.controller.getPOVAngle());
+	SmartDashboard::PutNumber("Gyro Angle", Subsystems::driveBase.getGyroAngle());
+}
+
+void Robot::destroyAutonomous() {
+	if (autonomous != nullptr) {
+		printf("Deleting the autonomous");
+		autonomous->Cancel();
+		Scheduler::GetInstance()->Remove(autonomous);
+		delete autonomous;
+		autonomous = nullptr;
+		SmartDashboard::PutString("Auto State", "Destroyed");
+	}
 }
 
 START_ROBOT_CLASS(Robot);

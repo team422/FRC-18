@@ -1,5 +1,6 @@
 #include "Guillotine.hpp"
 #include "../RobotMap.h"
+#include <cmath>
 
 Guillotine::Guillotine() :
 Subsystem("Guillotine"),
@@ -60,7 +61,7 @@ bool Guillotine::getLowerSwitchValue() {
 }
 
 int Guillotine::getLiftPosition() {
-	return lift.GetSelectedSensorPosition(0);
+	return abs(lift.GetSelectedSensorPosition(0));
 }
 
 void Guillotine::zeroLiftPosition() {

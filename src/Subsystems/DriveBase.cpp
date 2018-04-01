@@ -51,8 +51,10 @@ float DriveBase::getGyroAngle() {
 }
 
 void DriveBase::zeroEncoderPosition() {
-	leftMasterMotor.SetSelectedSensorPosition(0,0,10);
-	rightMasterMotor.SetSelectedSensorPosition(0,0,10);
+	leftMasterMotor.SetSelectedSensorPosition(0, 0, 10);
+	leftMasterMotor.GetSensorCollection().SetQuadraturePosition(0, 10);
+	rightMasterMotor.SetSelectedSensorPosition(0, 0, 10);
+	rightMasterMotor.GetSensorCollection().SetQuadraturePosition(0, 10);
 }
 
 void DriveBase::zeroGyroAngle() {

@@ -56,8 +56,12 @@ bool Turn::IsFinished() {
 
 void Turn::Interrupted() {
 	Subsystems::driveBase.setMotors(0,0);
+	Subsystems::driveBase.zeroEncoderPosition();
+	Subsystems::driveBase.zeroGyroAngle();
 }
 
 void Turn::End() {
 	Subsystems::driveBase.setMotors(0,0);
+	Subsystems::driveBase.zeroEncoderPosition();
+	Subsystems::driveBase.zeroGyroAngle();
 }

@@ -34,10 +34,14 @@ bool DriveStraight::IsFinished() {
 }
 
 void DriveStraight::Interrupted() {
+	Subsystems::driveBase.zeroEncoderPosition();
+	Subsystems::driveBase.zeroGyroAngle();
 	Subsystems::driveBase.setMotors(0,0);
 }
 
 void DriveStraight::End() {
+	Subsystems::driveBase.zeroEncoderPosition();
+	Subsystems::driveBase.zeroGyroAngle();
 	Subsystems::driveBase.setMotors(0,0);
 }
 

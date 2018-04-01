@@ -1,5 +1,7 @@
 #include "ArduinoController.hpp"
 
+#include "../RobotMap.h"
+
 ArduinoController::ArduinoController() : port(9600, SerialPort::Port::kUSB1) {
 
 }
@@ -10,10 +12,11 @@ void ArduinoController::sendCommand(std::string analogReading, std::string prima
 	command += shoulderColor;
 	command += mode;
 	sendCommand(command);
-
 }
 
 void ArduinoController::sendCommand(std::string command) {
+#ifdef COMP_BOT
 	port.Write("!" + command);
+#endif
 }
 
