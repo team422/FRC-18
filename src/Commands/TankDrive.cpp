@@ -1,14 +1,16 @@
 #include "TankDrive.hpp"
+
 #include "../Subsystems/Subsystems.hpp"
 #include "../UserInterface/UI.hpp"
-#include "../Subsystems/DriveBase.hpp"
 
-#include <cmath>
-
+/**
+ * The main drive command - a Tank Drive
+ */
 TankDrive::TankDrive() :
-leftSpeed(0),
-rightSpeed(0) {
-	Requires(&Subsystems::driveBase);
+	Command("TankDrive"),
+	leftSpeed(0),
+	rightSpeed(0) {
+		Requires(&Subsystems::driveBase);
 }
 
 void TankDrive::Initialize() {
@@ -16,15 +18,15 @@ void TankDrive::Initialize() {
 }
 
 void TankDrive::Execute() {
-	float left = UserInterface::userInterface.leftJoystick.GetY();
-	float leftDifference = left - leftSpeed;
+	double left = UserInterface::userInterface.leftJoystick.GetY();
+	double leftDifference = left - leftSpeed;
 	if (leftDifference > MAX_CHANGE) {
 		left = leftSpeed + MAX_CHANGE;
 	} else if (leftDifference < -MAX_CHANGE) {
 		left = leftSpeed - MAX_CHANGE;
 	}
-	float right = UserInterface::userInterface.rightJoystick.GetY();
-	float rightDifference = right - rightSpeed;
+	double right = UserInterface::userInterface.rightJoystick.GetY();
+	double rightDifference = right - rightSpeed;
 	if (rightDifference > MAX_CHANGE) {
 		right = rightSpeed + MAX_CHANGE;
 	} else if (rightDifference < -MAX_CHANGE) {

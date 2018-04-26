@@ -2,13 +2,13 @@
 
 #include <WPILib.h>
 
-class GuillotineRaise: public frc::Command {
+class GuillotineRaise : public frc::Command {
 public:
 	GuillotineRaise();
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void Interrupted();
-	void End();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void Interrupted() override;
+	void End() override;
 };
 

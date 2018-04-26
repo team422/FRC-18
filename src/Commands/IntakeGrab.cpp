@@ -1,7 +1,11 @@
 #include "IntakeGrab.hpp"
+
 #include "../Subsystems/Subsystems.hpp"
 
-IntakeGrab::IntakeGrab() {
+/**
+ * Causes the intake to grab
+ */
+IntakeGrab::IntakeGrab() : Command("IntakeGrab") {
 	Requires(&Subsystems::intake);
 }
 

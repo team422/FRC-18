@@ -1,7 +1,11 @@
 #include "GuillotineLower.hpp"
+
 #include "../Subsystems/Subsystems.hpp"
 
-GuillotineLower::GuillotineLower() {
+/**
+ * Lowers the guillotine until it has reached the bottom of the lift
+ */
+GuillotineLower::GuillotineLower() : Command("GuillotineLower") {
 	Requires(&Subsystems::guillotine);
 }
 
@@ -10,7 +14,7 @@ void GuillotineLower::Initialize() {
 }
 
 void GuillotineLower::Execute() {
-	Subsystems::guillotine.setLiftSpeed(-0.4f);
+	Subsystems::guillotine.setLiftSpeed(-0.4d);
 }
 
 bool GuillotineLower::IsFinished() {
@@ -18,9 +22,9 @@ bool GuillotineLower::IsFinished() {
 }
 
 void GuillotineLower::Interrupted() {
-	Subsystems::guillotine.setLiftSpeed(0.0f);
+	Subsystems::guillotine.setLiftSpeed(0.0d);
 }
 
 void GuillotineLower::End() {
-	Subsystems::guillotine.setLiftSpeed(0.0f);
+	Subsystems::guillotine.setLiftSpeed(0.0d);
 }

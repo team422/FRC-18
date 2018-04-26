@@ -1,5 +1,8 @@
 #include "CommandBatch.hpp"
 
+/**
+ * Like a command group, but stores a pointer to each command added to be deleted later
+ */
 CommandBatch::CommandBatch() {
 	commands.clear();
 }

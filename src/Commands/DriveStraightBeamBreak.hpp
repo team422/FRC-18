@@ -4,12 +4,12 @@
 
 class DriveStraightBeamBreak : public frc::Command {
 public:
-	DriveStraightBeamBreak(float speed, float timeout);
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void Interrupted();
-	void End();
+	DriveStraightBeamBreak(double speed, double timeout);
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void Interrupted() override;
+	void End() override;
 private:
-	float speed;
+	double speed;
 };

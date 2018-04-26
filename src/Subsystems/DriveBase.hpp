@@ -8,16 +8,16 @@
 class DriveBase : public frc::Subsystem {
 public:
 	DriveBase();
-	void setMotors(float left, float right);
+	void setMotors(double left, double right);
 	int getLeftPosition();
 	int getRightPosition();
 	int getLeftVelocity();
 	int getRightVelocity();
 	void InitDefaultCommand();
-	float getGyroAngle();
+	double getGyroAngle();
 	void zeroEncoderPosition();
 	void zeroGyroAngle();
-	bool getBeamBrake();
+	bool getBeamBreak();
 private:
 	TalonSRX	leftMasterMotor,
 				rightMasterMotor;
@@ -30,7 +30,7 @@ private:
 		leftFollower2,
 		rightFollower1,
 		rightFollower2;
-	DigitalInput beamBrake;
+	DigitalInput beamBreak;
 	TankDrive tankDrive;
 	ADXRS450_Gyro gyro;
 };

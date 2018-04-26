@@ -6,6 +6,9 @@
 #include "Commands/Autonomous/LeftAutonomous.hpp"
 #include "Commands/Autonomous/RightAutonomous.hpp"
 #include "Commands/Autonomous/CenterAutonomous.hpp"
+#include "Commands/Autonomous/PixyTest.hpp"
+
+#include "Commands/DriveAndTargetCube.hpp"
 
 class Robot : public frc::IterativeRobot {
 public:
@@ -20,8 +23,11 @@ public:
 private:
 	void printDataToSmartDashboard();
 	void destroyAutonomous();
+	void setRobotLightMode();
 	cs::UsbCamera camera;
 	CommandBatch *autonomous;
 	bool isLast30Seconds = false;
 	double currentGuillotinePosition = 0;
+	std::shared_ptr<NetworkTable> pixyTable;
+
 };

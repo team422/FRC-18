@@ -4,14 +4,14 @@
 
 class Turn : public frc::Command  {
 public:
-	Turn(int degrees, float speed, float timeout);
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void Interrupted();
-	void End();
+	Turn(double degrees, double speed, double timeout);
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void Interrupted() override;
+	void End() override;
 private:
-	int degrees;
-	float speed;
+	double degrees;
+	double speed;
 	bool isCorrecting;
 };

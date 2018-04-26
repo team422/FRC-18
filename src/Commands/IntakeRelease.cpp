@@ -1,7 +1,10 @@
 #include "IntakeRelease.hpp"
 #include "../Subsystems/Subsystems.hpp"
 
-IntakeRelease::IntakeRelease() {
+/**
+ * Causes the intake to release
+ */
+IntakeRelease::IntakeRelease() : Command("IntakeRelease") {
 	Requires(&Subsystems::intake);
 }
 

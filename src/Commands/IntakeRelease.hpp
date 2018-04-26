@@ -2,13 +2,13 @@
 
 #include <WPILib.h>
 
-class IntakeRelease: public frc::Command {
+class IntakeRelease : public frc::Command {
 public:
 	IntakeRelease();
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void Interrupted();
-	void End();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void Interrupted() override;
+	void End() override;
 };
 

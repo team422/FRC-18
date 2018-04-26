@@ -2,7 +2,7 @@
 
 #include <WPILib.h>
 
-class IntakeBox: public frc::CommandGroup {
+class IntakeBox : public frc::CommandGroup {
 public:
 	IntakeBox();
 };

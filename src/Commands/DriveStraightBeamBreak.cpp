@@ -1,12 +1,16 @@
 #include "DriveStraightBeamBreak.hpp"
-#include "../Subsystems/Subsystems.hpp"
-#include "../Subsystems/DriveBase.hpp"
-#include <cmath>
 
-DriveStraightBeamBreak::DriveStraightBeamBreak(float speed, float timeout) :
-Command(timeout),
-speed(speed) {
-	Requires(&Subsystems::driveBase);
+#include "../Subsystems/Subsystems.hpp"
+
+/**
+ * Drives the robot straight until the beam break sensor is triggered
+ * @param speed		The speed to drive at
+ * @param timeout	A timeout to stop the command, even if the beam break has not fired
+ */
+DriveStraightBeamBreak::DriveStraightBeamBreak(double speed, double timeout) :
+	Command("DriveStraightBeamBreak", timeout),
+	speed(speed) {
+		Requires(&Subsystems::driveBase);
 }
 
 void DriveStraightBeamBreak::Initialize() {
@@ -15,20 +19,20 @@ void DriveStraightBeamBreak::Initialize() {
 }
 
 void DriveStraightBeamBreak::Execute() {
-	float correction = Subsystems::driveBase.getGyroAngle();
-	correction *= 0.075;
-	correction += 1.0;
+	double correction = Subsystems::driveBase.getGyroAngle();
+	correction *= 0.075d;
+	correction += 1.0d;
 	Subsystems::driveBase.setMotors(-speed, -speed * correction);
 }
 
 bool DriveStraightBeamBreak::IsFinished() {
-	return Subsystems::driveBase.getBeamBrake();
+	return Subsystems::driveBase.getBeamBreak() || IsTimedOut();
 }
 
 void DriveStraightBeamBreak::Interrupted() {
-	Subsystems::driveBase.setMotors(0,0);
+	Subsystems::driveBase.setMotors(0.0d, 0.0d);
 }
 
 void DriveStraightBeamBreak::End() {
-	Subsystems::driveBase.setMotors(0,0);
+	Subsystems::driveBase.setMotors(0.0d, 0.0d);
 }

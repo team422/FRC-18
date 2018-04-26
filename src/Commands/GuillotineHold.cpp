@@ -1,7 +1,11 @@
 #include "GuillotineHold.hpp"
+
 #include "../Subsystems/Subsystems.hpp"
 
-GuillotineHold::GuillotineHold() {
+/**
+ * Causes the guillotine to hold
+ */
+GuillotineHold::GuillotineHold() : Command("GuillotineHold") {
 	Requires(&Subsystems::guillotine);
 }
 

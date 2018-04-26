@@ -1,7 +1,11 @@
 #include "GuillotineKick.hpp"
+
 #include "../Subsystems/Subsystems.hpp"
 
-GuillotineKick::GuillotineKick() {
+/**
+ * Causes the guillotine to kick
+ */
+GuillotineKick::GuillotineKick() : Command("GuillotineKick") {
 	Requires(&Subsystems::guillotine);
 }
 

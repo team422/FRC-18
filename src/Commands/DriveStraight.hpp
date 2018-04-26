@@ -2,17 +2,19 @@
 
 #include <WPILib.h>
 
+#include "../Util/Direction.hpp"
+
 class DriveStraight : public frc::Command {
 public:
-	DriveStraight(float inches, float speed, bool forward, float timeout);
+	DriveStraight(double inches, double speed, Direction direction, double timeout);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void Interrupted();
 	void End();
 private:
-	int convertToTicks(float inches);
+	int convertToTicks(double inches);
 	int ticks;
-	bool forward;
-	float speed;
+    Direction direction;
+	double speed;
 };

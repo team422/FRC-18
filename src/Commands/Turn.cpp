@@ -1,13 +1,19 @@
 #include "Turn.hpp"
-#include "../Subsystems/Subsystems.hpp"
-#include "../Subsystems/DriveBase.hpp"
 
-Turn::Turn(int degrees, float speed, float timeout) :
-Command(timeout),
-degrees(degrees),
-speed(speed),
-isCorrecting(false) {
-	Requires(&Subsystems::driveBase);
+#include "../Subsystems/Subsystems.hpp"
+
+/**
+ * Represents a turn that the robot may perform
+ * @param degrees The degrees to turn, positive is rotate clockwise, negative is counterclockwise
+ * @param speed   The speed to turn with
+ * @param timeout A timeout to stop after
+ */
+Turn::Turn(double degrees, double speed, double timeout) :
+	Command("Turn", timeout),
+	degrees(degrees),
+	speed(speed),
+	isCorrecting(false) {
+		Requires(&Subsystems::driveBase);
 }
 
 void Turn::Initialize() {
@@ -32,7 +38,7 @@ void Turn::Execute() {
 }
 
 bool Turn::IsFinished() {
-	float angle = Subsystems::driveBase.getGyroAngle();
+	double angle = Subsystems::driveBase.getGyroAngle();
 	if (degrees > 0) {
 		// Turning to the right
 		if (!isCorrecting) {

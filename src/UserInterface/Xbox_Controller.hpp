@@ -5,12 +5,13 @@
 class Xbox_Controller {
 public:
 	Xbox_Controller(int port);
-	float getLeftJoystickX();
-	float getLeftJoystickY();
-	float getRightJoystickY();
-	float getLeftTrigger();
-	float getRightTrigger();
-	int getPOVAngle();
+	double getLeftJoystickX() const;
+	double getLeftJoystickY() const;
+	double getRightJoystickX() const;
+	double getRightJoystickY() const;
+	double getLeftTrigger() const;
+	double getRightTrigger() const;
+	int getPOVAngle() const;
 private:
 	Joystick joystick;
 public:

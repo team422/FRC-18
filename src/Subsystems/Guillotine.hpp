@@ -8,7 +8,7 @@ public:
 	Guillotine();
 	void hold();
 	void kick();
-	void setLiftSpeed(float speed);
+	void setLiftSpeed(double speed);
 	bool getUpperSwitchValue();
 	bool getLowerSwitchValue();
 	int getLiftPosition();

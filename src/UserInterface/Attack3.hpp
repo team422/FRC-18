@@ -4,15 +4,15 @@
 
 class Attack3 {
 public:
-	Attack3(uint32_t port);
-	float GetX();
-	float GetY();
+	Attack3(int port);
+	double GetX() const;
+	double GetY() const;
 private:
 	Joystick joystick;
 public:
-	const JoystickButton TRIGGER;
-	const JoystickButton BUTTON_2;
-	const JoystickButton BUTTON_3;
-	const JoystickButton BUTTON_4;
-	const JoystickButton BUTTON_5;
+	JoystickButton	TRIGGER,
+					BUTTON_2,
+					BUTTON_3,
+					BUTTON_4,
+					BUTTON_5;
 };

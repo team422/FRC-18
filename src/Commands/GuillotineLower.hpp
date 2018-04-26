@@ -5,10 +5,10 @@
 class GuillotineLower: public frc::Command {
 public:
 	GuillotineLower();
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void Interrupted();
-	void End();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void Interrupted() override;
+	void End() override;
 };
 

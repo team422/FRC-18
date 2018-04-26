@@ -1,13 +1,17 @@
 #include "Guillotine.hpp"
 #include "../RobotMap.h"
-#include <cmath>
 
+/**
+ * Represents one instance of the Guillotine subsystems
+ *
+ * Includes all motor controllers and any sensors attached to them
+ */
 Guillotine::Guillotine() :
-Subsystem("Guillotine"),
-kicker(Ports::KICKER_FORWARD, Ports::KICKER_REVERSE),
-lift(Ports::LIFT),
-upperSwitch(Ports::GUILLOTINE_UPPER_SWITCH),
-lowerSwitch(Ports::GUILLOTINE_LOWER_SWITCH) {
+	Subsystem("Guillotine"),
+	kicker(Ports::KICKER_FORWARD, Ports::KICKER_REVERSE),
+	lift(Ports::LIFT),
+	upperSwitch(Ports::GUILLOTINE_UPPER_SWITCH),
+	lowerSwitch(Ports::GUILLOTINE_LOWER_SWITCH) {
 
 }
 
@@ -26,44 +30,58 @@ void Guillotine::kick() {
 }
 
 /**
- * Sets the lift to the given speed
+ * Sets the lift to the given speed.
  * A positive speed will cause the lift to rise, while a negative
  * speed will cause it to fall
+ * @param speed The speed to set the lift to
  */
-void Guillotine::setLiftSpeed(float speed) {
-	lift.Set(ControlMode::PercentOutput, 0.0f);
+void Guillotine::setLiftSpeed(double speed) {
+	// Set the speed to zero to start, if it should be something else, it will be set later
+	double target = 0.0d;
 	if (speed > 0) {
-		lift.Set(ControlMode::PercentOutput, 0.3f);
+		target = 0.3d;
 	}
 	if (speed > 0 && !getUpperSwitchValue()) {
 		// If the lift can go up, let it
-		lift.Set(ControlMode::PercentOutput, speed);
+		target = speed;
 	} else if (speed < 0 && !getLowerSwitchValue()) {
 		// If the lift can go down, let it
-		lift.Set(ControlMode::PercentOutput, speed);
+		target = speed;
 	}
+	lift.Set(ControlMode::PercentOutput, target);
 }
 
 /**
- * Returns whether the upper switch is active.
+ * Gets whether the upper switch is active.
  * This occurs when the lift is fully raised
+ * @return A boolean representing the state of the upper switch
  */
 bool Guillotine::getUpperSwitchValue() {
 	return !upperSwitch.Get();
 }
 
 /**
- * Returns whether the lower switch is active.
+ * Gets whether the lower switch is active.
  * This occurs when the lift is fully lowered
+ * @return A boolean representing the state of the lower switch
  */
 bool Guillotine::getLowerSwitchValue() {
 	return !lowerSwitch.Get();
 }
 
+/**
+ * Gets the position of the lift from the encoder
+ * @return The position of the lift
+ */
 int Guillotine::getLiftPosition() {
 	return abs(lift.GetSelectedSensorPosition(0));
 }
 
+/**
+ * Sets the lift position to zero.
+ * This should only be done when the lift is fully lowered
+ */
 void Guillotine::zeroLiftPosition() {
-	lift.SetSelectedSensorPosition(0, 0, 1);
+	lift.SetSelectedSensorPosition(0, 0, 10);
+	lift.GetSensorCollection().SetQuadraturePosition(0, 10);
 }
