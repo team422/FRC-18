@@ -30,7 +30,7 @@ LeftAutonomous::LeftAutonomous(std::string gameData, bool scale) {
 		AddSequential(new GuillotineLower());
 		AddParallel(new IntakePivot(Direction::DOWN, false, 1.0d));
 		AddSequential(new Turn(156.0f, 0.7f, 2.0f));
-		if (gameData[0] == 'L') {
+		if (gameData[0] == 'L' && UserInterface::userInterface.launchpad.getSwitch3()) {
 			// Two-Cube Scale then Switch Auto
 			AddParallel(new IntakeSetArmSpeed(0.8d));
 			AddSequential(new DriveAndTargetCube(0.40d, Direction::FORWARD, 5.0d));
@@ -80,10 +80,10 @@ LeftAutonomous::LeftAutonomous(std::string gameData, bool scale) {
 	} else if (gameData[1] == 'R' && scale && !UserInterface::userInterface.launchpad.getSwitch2()) {
 		// Opposite side scale auto
 		// If switch 2 is up, disable this mode
-		AddSequential(new DriveStraight(190.438, 0.9, Direction::FORWARD, 40));
-		AddSequential(new Turn(87.0f, 0.7, 40));
-		AddSequential(new DriveStraight(140.625, 0.9, Direction::FORWARD, 40));
-		AddSequential(new Turn(-98.0f,0.7,40));
+		AddSequential(new DriveStraight(190.438, 0.9, Direction::FORWARD, 5.0d));
+		AddSequential(new Turn(87.0f, 0.7, 5.0d));
+		AddSequential(new DriveStraight(140.625, 0.9, Direction::FORWARD, 5.0d));
+		AddSequential(new Turn(-98.0f, 0.7, 3.0d));
 		AddParallel(new IntakeRelease());
 		AddSequential(new GuillotineRaise());
 		AddSequential(new DriveStraight(52.057, 0.5, Direction::FORWARD, 0.9f));
