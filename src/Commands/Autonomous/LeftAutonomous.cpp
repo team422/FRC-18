@@ -28,42 +28,42 @@ LeftAutonomous::LeftAutonomous(std::string gameData, bool scale) {
 		AddParallel(new GuillotineKick());
 		AddSequential(new DriveStraight(36.0f, 0.9f, Direction::REVERSE, 0.25f));
 		AddSequential(new GuillotineLower());
-		AddParallel(new IntakePivot(Direction::DOWN, false, 1.0d));
-		AddSequential(new Turn(156.0f, 0.7f, 2.0f));
-		if (gameData[0] == 'L' && UserInterface::userInterface.launchpad.getSwitch3()) {
-			// Two-Cube Scale then Switch Auto
-			AddParallel(new IntakeSetArmSpeed(0.8d));
-			AddSequential(new DriveAndTargetCube(0.40d, Direction::FORWARD, 5.0d));
-			AddSequential(new WaitCommand(0.5d));
-			AddSequential(new IntakeGrab());
-			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::REVERSE, 1.0d));
-			AddSequential(new WaitCommand(0.1d));
-			AddSequential(new IntakeSetArmSpeed(0.0d));
-			AddSequential(new IntakePivot(Direction::UP, false, 1.5d));
-			AddSequential(new IntakePivot(Direction::UP, true, 0.05d));
-			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::FORWARD, 0.5d));
-			AddSequential(new Turn(-7.5f, 0.7f, 1.0f));
-			AddSequential(new IntakePivot(Direction::DOWN, false, 0.2f));
-			AddSequential(new IntakeSetArmSpeed(-0.8d));
-			AddSequential(new ArduinoControllerSendCommand());
-			AddSequential(new WaitCommand(4));
-			AddSequential(new IntakeSetArmSpeed(0.0d));
-		} else {
-			// Two-Cube Scale Auto
-			AddParallel(new IntakeSetArmSpeed(0.8d));
-			AddSequential(new DriveAndTargetCube(0.40d, Direction::FORWARD, 5.0d));
-			AddSequential(new WaitCommand(0.5d));
-			AddSequential(new IntakeGrab());
-			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::REVERSE, 1.0d));
-			AddSequential(new WaitCommand(0.1d));
-			AddSequential(new IntakeSetArmSpeed(0.0d));
-			AddSequential(new IntakeBox());
-			AddParallel(new GuillotineRaise());
-			AddSequential(new Turn(-150.0d, 0.7d, 2.0d));
-			AddSequential(new DriveStraight(48.0d, 0.6d, Direction::FORWARD, 4.0d));
-			AddSequential(new WaitCommand(0.2d));
-			AddSequential(new GuillotineKick());
-		}
+//		AddParallel(new IntakePivot(Direction::DOWN, false, 1.0d));
+//		AddSequential(new Turn(156.0f, 0.7f, 2.0f));
+//		if (gameData[0] == 'L' && UserInterface::userInterface.launchpad.getSwitch3()) {
+//			// Two-Cube Scale then Switch Auto
+//			AddParallel(new IntakeSetArmSpeed(0.8d));
+//			AddSequential(new DriveAndTargetCube(0.40d, Direction::FORWARD, 5.0d));
+//			AddSequential(new WaitCommand(0.5d));
+//			AddSequential(new IntakeGrab());
+//			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::REVERSE, 1.0d));
+//			AddSequential(new WaitCommand(0.1d));
+//			AddSequential(new IntakeSetArmSpeed(0.0d));
+//			AddSequential(new IntakePivot(Direction::UP, false, 1.5d));
+//			AddSequential(new IntakePivot(Direction::UP, true, 0.05d));
+//			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::FORWARD, 0.5d));
+//			AddSequential(new Turn(-7.5f, 0.7f, 1.0f));
+//			AddSequential(new IntakePivot(Direction::DOWN, false, 0.2f));
+//			AddSequential(new IntakeSetArmSpeed(-0.8d));
+//			AddSequential(new ArduinoControllerSendCommand());
+//			AddSequential(new WaitCommand(4));
+//			AddSequential(new IntakeSetArmSpeed(0.0d));
+//		} else {
+//			// Two-Cube Scale Auto
+//			AddParallel(new IntakeSetArmSpeed(0.8d));
+//			AddSequential(new DriveAndTargetCube(0.40d, Direction::FORWARD, 5.0d));
+//			AddSequential(new WaitCommand(0.5d));
+//			AddSequential(new IntakeGrab());
+//			AddSequential(new DriveStraight(18.0d, 0.9d, Direction::REVERSE, 1.0d));
+//			AddSequential(new WaitCommand(0.1d));
+//			AddSequential(new IntakeSetArmSpeed(0.0d));
+//			AddSequential(new IntakeBox());
+//			AddParallel(new GuillotineRaise());
+//			AddSequential(new Turn(-150.0d, 0.7d, 2.0d));
+//			AddSequential(new DriveStraight(48.0d, 0.6d, Direction::FORWARD, 4.0d));
+//			AddSequential(new WaitCommand(0.2d));
+//			AddSequential(new GuillotineKick());
+//		}
 	} else if (gameData[1] == 'L' && scale) {
 		// Single Cube Scale Auto
 		AddSequential(new DriveStraight(260.975f, 0.9f, Direction::FORWARD, 8.0f));
